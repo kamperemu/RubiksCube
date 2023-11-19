@@ -1,8 +1,18 @@
+import java.util.ArrayList;
+
 public class Main {
+    public static ArrayList<cubestate> universalCubeStates;
+    public static cubestate existingCubeState(Cubot cube) {
+        for (cubestate cubeIt: universalCubeStates) {
+            if (cubeIt.compareTo(cube)) {
+                return cubeIt;
+            }
+        }
+        return null;
+    }
     public static void main(String[] args) {
-        Cubot cube = new Cubot(false);
-        Cubot cube2 = new Cubot(false);
-        System.out.println(cube2.compareTo(cube));
+        universalCubeStates = new ArrayList<cubestate>();
+        cubestate cube = new cubestate();
         System.out.println(cube);
     }
 }

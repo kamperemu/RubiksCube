@@ -1,28 +1,95 @@
+import java.util.Objects;
 
-public class cubestate {//graph node representing state of a cube
-    public cubestate(){//constructor for first node / solved state not to be typically used
-        state = "";//REPLACE WITH WHATEVER ENDS UP BEING THE NOTATION FOR SOLVED STATE
-    }
-    public cubestate(String s, cubestate graph_node){//constructor takes state after move and originating cubestate where move was made
-        //insert logic to traverse graph using provided node and check if node requested for creation already exists( possibly does not need to be done here in that case link up the edges accordingly for existing node)
-        state = s;
-    }
-    private String state;//state representation for this node
-    cubestate[] moved_states;//all moves possible from the first state ( 6 only (fixed) )
+public class cubestate extends Cubot{
+    private cubestate edgeR;
+    private cubestate edgeL;
+    private cubestate edgeF;
+    private cubestate edgeB;
+    private cubestate edgeU;
+    private cubestate edgeD;
+    private cubestate edgeRI;
+    private cubestate edgeLI;
+    private cubestate edgeFI;
+    private cubestate edgeBI;
+    private cubestate edgeUI;
+    private cubestate edgeDI;
 
-    void setstate(String s){//set state of this node
-        state = s;
+    public cubestate(){
+        super(false);
+        Main.universalCubeStates.add(this);
+        tweleveMoveStates();
     }
 
-    String getstate(){//get state of this node
-        return state;
+    public cubestate(String[] arr) {
+        super(arr);
+        Main.universalCubeStates.add(this);
+        tweleveMoveStates();
     }
 
-    void run(int movement_index){//run/generate graph progression for first move from this node
-        //System.out.println("First move from this node");
-        cubestate generated_node = new cubestate(this.state, this);// NEEDS LOGIC FOR MOVE APPLICATION SUCH THAT NEW NODE IS DIFFERENT FROM ORIGINAL NODE (MIGHT USE EXISTING LIBRARIES IF INDEPENDENT LOGIC HANDLING TURNS OUT TO BE TOO HARD)
-        this.moved_states[movement_index] = generated_node;
-        generated_node.moved_states[6-movement_index] = this;// fix logic for reverse move ACTUAL COUNT MAY VARY AND REVERSIBILITY MIGHT NOT BE AS EASILY REVERSIBLE
+    public cubestate(Cubot cube) {
+        super(cube.cubeToArr());
+        Main.universalCubeStates.add(this);
+        tweleveMoveStates();
+    }
+
+    public void tweleveMoveStates() {
+        newState("R");
+        newState("L");
+        newState("F");
+        newState("B");
+        newState("U");
+        newState("D");
+        newState("R'");
+        newState("L'");
+        newState("F'");
+        newState("B'");
+        newState("U'");
+        newState("D'");
+    }
+
+    public void newState(String move) {
+        Cubot newCubeState = new Cubot(this.cubeToArr());
+        newCubeState.stringAlg(move);
+        cubestate existingState = Main.existingCubeState(newCubeState);
+        if (existingState == null) {
+            existingState = new cubestate(newCubeState.cubeToArr());
+        }
+        if (move.equals("R")) {
+            edgeR = existingState;
+        }
+        if (move.equals("L")) {
+            edgeL = existingState;
+        }
+        if (move.equals("F")) {
+            edgeF = existingState;
+        }
+        if (move.equals("B")) {
+            edgeB = existingState;
+        }
+        if (move.equals("U")) {
+            edgeU = existingState;
+        }
+        if (move.equals("D")) {
+            edgeD = existingState;
+        }
+        if (move.equals("R'")) {
+            edgeRI = existingState;
+        }
+        if (move.equals("L'")) {
+            edgeLI = existingState;
+        }
+        if (move.equals("F'")) {
+            edgeFI = existingState;
+        }
+        if (move.equals("B'")) {
+            edgeBI = existingState;
+        }
+        if (move.equals("U'")) {
+            edgeUI = existingState;
+        }
+        if (move.equals("D'")) {
+            edgeDI = existingState;
+        }
 
     }
 }
